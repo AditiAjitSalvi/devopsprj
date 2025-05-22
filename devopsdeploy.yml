@@ -1,19 +1,17 @@
 ---
 - name: Deploy Java App on Docker
-  hosts: allhosts
-  become: true  # Use sudo if Docker needs root privileges
+  hosts: localhost
   tasks:
-    - name: Ensure existing container is absent
-      community.docker.docker_container:
-        name: java_container
-        state: absent
+    - name: Stop existing Docker container
+      command: docker stop java_container
+      ignore_errors: yes
+
+    - name: Remove existing Docker container
+      command: docker rm java_container
+      ignore_errors: yes
 
     - name: Run new Docker container
-      community.docker.docker_container:
-        name: java_container
-        image: javaimg:latest
-        state: started
-        detach: true
+      command: docker run --name java_container -d javaimg:latest
 
     - name: Get container logs
       command: docker logs java_container
