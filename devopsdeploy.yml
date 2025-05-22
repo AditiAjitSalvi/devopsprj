@@ -1,6 +1,6 @@
 ---
 - name: Deploy Java App on Docker
-  hosts: localhost
+  hosts: allhosts
   become: true  # Use sudo if Docker needs root privileges
   tasks:
     - name: Ensure existing container is absent
